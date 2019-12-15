@@ -1,10 +1,36 @@
-node "test-site" {
+#this directory stucture can be passed in an array. I have kept it with readability purpose
 
+node "test-site"{
   file { ['/var/www']:
     ensure => 'directory',
     owner   => root,
     group   => root,
     mode    => '755'
+  }
+  file { ['/var/www/test-app']:
+     ensure => 'directory',
+     owner   => root,
+     group   => root,
+     mode    => '755'
+  }
+
+  file { ['/var/www/test-app/releases']:
+     ensure => 'directory',
+     owner   => root,
+     group   => root,
+     mode    => '755'
+  }
+    file { ['/var/www/test-app/shared']:
+     ensure => 'directory',
+     owner   => root,
+     group   => root,
+     mode    => '755'
+  }
+    file { ['/var/www/test-app/current']:
+     ensure => 'directory',
+     owner   => root,
+     group   => root,
+     mode    => '755'
   }
 
   file {'/var/www/test-app/current/index.html':
@@ -17,6 +43,8 @@ node "test-site" {
 
   class { 'nginx':
     client_max_body_size => '512M',
+#-- Changing worker process to 2
+    worker_processes => 2,
   }
 
   # NGINX Configuration
